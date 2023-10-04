@@ -1,0 +1,35 @@
+<h1>{{ n | upper }}</h1>
+
+{% set x = 6 %}
+{{ x }}
+{% if authors is not empty %}
+   {% set totalBooks = 0 %}
+   <p>Nombre d'auteurs : {{ authors | length }}</p>
+   <table>
+       <tr>
+           <th>Auteur</th>
+           <th>Email</th>
+           <th>Nombre de livres</th>
+           <th>Button</th>
+           <th>Images</th>
+       </tr>
+       {% for author in authors %}
+           <tr>
+               <td>{{ author.username | upper }}</td>
+               <td>{{ author.email }}</td>
+               <td>{{ author.nb_books }}</td>
+               <td>
+                   {% if author.nb_books > 0 %}
+                       <button>Afficher</button>
+                   {% endif %}
+               </td>
+               <td><img src="{{ author.picture }}" width="100" height="100"></td>
+              <td> <a href="{{ path('author_details', {'id': author.id}) }}"><button>Details</button></a></td>
+           </tr>
+           {% set totalBooks = totalBooks + author.nb_books %}
+       {% endfor %}
+       <p>Total number of books by all authors: {{ totalBooks }}</p>
+   </table>
+{% else %}
+   <p>Aucun auteur trouvé.</p>
+{% endif %}
